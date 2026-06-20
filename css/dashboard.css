@@ -1,0 +1,432 @@
+/* ── DASHBOARD BASE ── */
+.dashboard-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e7e9ee, #5c7aaa, #334155);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── NAVBAR ── */
+.navbar {
+  width: 100%;
+  height: 65px;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.navbar-logo {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.navbar-center {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.12);
+  color: white;
+}
+
+.nav-btn.active {
+  background: rgba(255,255,255,0.18);
+  color: white;
+  font-weight: 600;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-user {
+  color: rgba(255,255,255,0.8);
+  font-size: 0.9rem;
+}
+
+.btn-logout {
+  background: rgba(239, 68, 68, 0.25);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.btn-logout:hover {
+  background: rgba(239, 68, 68, 0.45);
+  color: white;
+}
+
+/* ── MAIN CONTENT ── */
+.dashboard-main {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* ── SECTIONS ── */
+.dash-section {
+  display: none;
+}
+
+.dash-section.active {
+  display: block;
+}
+
+.section-title {
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 0.3rem 0;
+}
+
+.section-sub {
+  color: #d1d5db;
+  margin: 0 0 1.5rem 0;
+  font-size: 0.95rem;
+}
+
+/* ── GLASS CARD ── */
+.glass-card {
+  background: rgba(241, 236, 236, 0.12);
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.glass-card h3 {
+  color: white;
+  font-size: 1.1rem;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+}
+
+/* ── STATS GRID ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px);
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 1.2rem;
+  text-align: center;
+}
+
+.stat-icon {
+  font-size: 1.8rem;
+  margin-bottom: 0.4rem;
+}
+
+.stat-label {
+  color: #d1d5db;
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
+}
+
+.stat-value {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+/* ── OVERVIEW GRID ── */
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+/* ── TABLES ── */
+.dash-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.dash-table th {
+  color: #d1d5db;
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  font-weight: 600;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.dash-table td {
+  color: white;
+  padding: 0.7rem 0.8rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.dash-table tr:last-child td {
+  border-bottom: none;
+}
+
+.empty-row {
+  text-align: center;
+  color: #9ca3af !important;
+  padding: 1.5rem !important;
+}
+
+.empty-msg {
+  color: #9ca3af;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+/* ── STATUS BADGES ── */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.badge-success { background: rgba(16,185,129,0.2); color: #6ee7b7; }
+.badge-warning { background: rgba(245,158,11,0.2); color: #fcd34d; }
+.badge-danger  { background: rgba(239,68,68,0.2);  color: #fca5a5; }
+.badge-info    { background: rgba(96,165,250,0.2); color: #93c5fd; }
+
+/* ── FORMS ── */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  color: #d1d5db;
+  font-size: 0.88rem;
+  margin-bottom: 0.4rem;
+}
+
+.dash-input {
+  width: 100%;
+  padding: 0.72rem 1rem;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 8px;
+  color: white;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.dash-input::placeholder { color: #9ca3af; }
+.dash-input:focus { border-color: rgba(255,255,255,0.6); }
+
+select.dash-input option {
+  background: #334155;
+  color: white;
+}
+
+textarea.dash-input { resize: vertical; }
+
+.form-msg {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.form-msg.success { color: #6ee7b7; }
+.form-msg.error   { color: #fca5a5; }
+
+/* ── PROFILE ── */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.profile-card {
+  text-align: center;
+  padding: 2rem 1.5rem;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(96,165,250,0.3);
+  border: 2px solid rgba(96,165,250,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 auto 1rem auto;
+}
+
+.profile-name {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.profile-role {
+  color: #60a5fa;
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
+
+.profile-email {
+  color: #9ca3af;
+  font-size: 0.85rem;
+}
+
+/* ── BOOKING STATUS ── */
+.booking-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.booking-info-item label {
+  color: #9ca3af;
+  font-size: 0.8rem;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.booking-info-item span {
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .overview-grid { grid-template-columns: 1fr; }
+  .profile-grid  { grid-template-columns: 1fr; }
+  .navbar-center { display: none; }
+}
+
+@media (max-width: 600px) {
+  .dashboard-main { padding: 1rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+}
+.btn-pay {
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #86efac;
+  padding: 0.35rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: all 0.2s;
+}
+
+.btn-pay:hover {
+  background: rgba(34, 197, 94, 0.4);
+  color: white;
+}
+
+/* ── PAY BUTTON ── */
+.btn-pay {
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #86efac;
+  padding: 0.35rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: all 0.2s;
+}
+
+.btn-pay:hover {
+  background: rgba(34, 197, 94, 0.4);
+  color: white;
+}
+
+/* ── MPESA MODAL ── */
+.mpesa-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.mpesa-modal {
+  background: rgba(30, 41, 59, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+}
+
+.mpesa-modal h3 {
+  color: white;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+}
+
+.mpesa-modal p {
+  color: #d1d5db;
+  font-size: 0.9rem;
+  margin: 0 0 1.2rem 0;
+}
+
+.mpesa-logo {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.mpesa-status {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.mpesa-status.success { color: #86efac; }
+.mpesa-status.error   { color: #fca5a5; }
+.mpesa-status.waiting { color: #fcd34d; }

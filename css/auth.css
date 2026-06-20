@@ -1,0 +1,221 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* ── SIGN IN PAGE ── */
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e7e9ee, #5c7aaa, #334155);
+}
+
+/* ── SIGN UP PAGE ── */
+body.sign-up-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e7e9ee, #5c7aaa, #334155);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── HEADER ── */
+.header {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  height: 80px;
+  box-sizing: border-box;
+}
+
+.header-logo {
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+/* ── SIGN IN CONTAINER ── */
+.signin-container {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+/* ── SIGN UP MAIN ── */
+.login-sections {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+/* ── CARD (shared by both pages) ── */
+.signin-card {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(241, 236, 236, 0.12);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 2rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.signin-card h1 {
+  color: white;
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  color: #d1d5db;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* ── FORM FIELDS ── */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  color: #d1d5db;
+  font-size: 0.88rem;
+  margin-bottom: 0.4rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  color: white;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.form-group input::placeholder {
+  color: #9ca3af;
+}
+
+.form-group input:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.form-group input:focus {
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* ── BUTTON ── */
+.btn-primary {
+  width: 100%;
+  height: 50px;
+  margin-top: 0.5rem;
+  background: #1d4ed8;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-transform: none;
+}
+
+.btn-primary:hover {
+  background: #1e40af;
+}
+
+/* ── ERROR ── */
+.error-message {
+  color: #ef4444;
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* ── SWITCH LINK ── */
+.signup-link {
+  color: white;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.95rem;
+}
+
+.signup-link span {
+  color: #60a5fa;
+  cursor: pointer;
+}
+
+.signup-link span:hover {
+  text-decoration: underline;
+}
+
+/* ── FOOTER ── */
+.footer-container {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.75rem 3rem;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-content {
+  width: 100%;
+  max-width: 1280px;
+  display: flex;
+  justify-content: center;
+}
+
+.examerproinc-all-rights-res-parent {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.examerproinc-all-rights,
+.privacy-policy,
+.terms-conditions,
+.contact-us {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+}
+
+/* ── RESPONSIVE ── */
+@media screen and (max-width: 750px) {
+  .signin-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .footer-container {
+    padding: 0.75rem 1.25rem;
+  }
+
+  .examerproinc-all-rights-res-parent {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .footer-links {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+}

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tenant Dashboard — Makutano HMS</title>
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body class="dashboard-page">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-left">
+      <span class="navbar-logo">Makutano HMS</span>
+    </div>
+    <div class="navbar-center">
+      <button class="nav-btn active" onclick="showSection('overview')">Overview</button>
+      <button class="nav-btn" onclick="showSection('booking')">Room Booking</button>
+      <button class="nav-btn" onclick="showSection('payments')">Payments</button>
+      <button class="nav-btn" onclick="showSection('maintenance')">Maintenance</button>
+      <button class="nav-btn" onclick="showSection('profile')">Profile</button>
+    </div>
+    <div class="navbar-right">
+      <span id="navbar-username" class="navbar-user"></span>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <main class="dashboard-main">
+
+    <!-- ── OVERVIEW ── -->
+    <section id="section-overview" class="dash-section active">
+      <h2 class="section-title">Welcome back, <span id="overview-name"></span> 👋</h2>
+      <p class="section-sub">Here's a summary of your hostel status.</p>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">🏠</div>
+          <div class="stat-label">Room</div>
+          <div class="stat-value" id="stat-room">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💳</div>
+          <div class="stat-label">Balance Due</div>
+          <div class="stat-value" id="stat-balance">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🔧</div>
+          <div class="stat-label">Open Requests</div>
+          <div class="stat-value" id="stat-maintenance">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📋</div>
+          <div class="stat-label">Booking Status</div>
+          <div class="stat-value" id="stat-booking">—</div>
+        </div>
+      </div>
+
+      <div class="overview-grid">
+        <div class="glass-card">
+          <h3>Recent Payments</h3>
+          <table class="dash-table" id="overview-payments">
+            <thead><tr><th>Date</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody><tr><td colspan="3" class="empty-row">Loading...</td></tr></tbody>
+          </table>
+        </div>
+        <div class="glass-card">
+          <h3>Maintenance Requests</h3>
+          <table class="dash-table" id="overview-maintenance">
+            <thead><tr><th>Issue</th><th>Date</th><th>Status</th></tr></thead>
+            <tbody><tr><td colspan="3" class="empty-row">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ROOM BOOKING ── -->
+    <section id="section-booking" class="dash-section">
+      <h2 class="section-title">Room Booking</h2>
+      <p class="section-sub">Apply for accommodation or check your current booking.</p>
+
+      <div class="glass-card" id="booking-status-card">
+        <h3>Current Booking</h3>
+        <div id="booking-details">
+          <p class="empty-msg">No active booking found.</p>
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <h3>Apply for a Room</h3>
+        <form id="bookingForm">
+          <div class="form-group">
+            <label>Room Type</label>
+            <select id="room-type" class="dash-input">
+              <option value="">-- Select room type --</option>
+              <option value="single">Single Room</option>
+              <option value="double">Double Room</option>
+              <option value="shared">Shared Room (4 persons)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Preferred Block</label>
+            <select id="room-block" class="dash-input">
+              <option value="">-- Select block --</option>
+              <option value="A">Block A</option>
+              <option value="B">Block B</option>
+              <option value="C">Block C</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Academic Year</label>
+            <input type="text" id="academic-year" class="dash-input" placeholder="e.g. 2025/2026" />
+          </div>
+          <div class="form-group">
+            <label>Additional Notes</label>
+            <textarea id="booking-notes" class="dash-input" rows="3" placeholder="Any special requirements..."></textarea>
+          </div>
+          <button type="submit" class="btn-primary">Submit Application</button>
+          <p id="booking-msg" class="form-msg"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ── PAYMENTS ── -->
+    <section id="section-payments" class="dash-section">
+      <h2 class="section-title">Payments & Billing</h2>
+      <p class="section-sub">View your invoices and payment history.</p>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📄</div>
+          <div class="stat-label">Total Invoiced</div>
+          <div class="stat-value" id="pay-total">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-label">Total Paid</div>
+          <div class="stat-value" id="pay-paid">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⚠️</div>
+          <div class="stat-label">Balance Due</div>
+          <div class="stat-value" id="pay-balance">—</div>
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <h3>Invoices</h3>
+        <table class="dash-table" id="invoices-table">
+          <thead>
+            <tr>
+              <th>Invoice #</th>
+              <th>Description</th>
+              <th>Amount</th>
+              <th>Due Date</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody><tr><td colspan="6" class="empty-row">Loading...</td></tr></tbody>
+        </table>
+      </div>
+
+      <div class="glass-card">
+        <h3>Payment History</h3>
+        <table class="dash-table" id="payments-table">
+          <thead>
+            <tr><th>Date</th><th>Amount</th><th>Method</th><th>Reference</th></tr>
+          </thead>
+          <tbody><tr><td colspan="4" class="empty-row">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── MAINTENANCE ── -->
+    <section id="section-maintenance" class="dash-section">
+      <h2 class="section-title">Maintenance Requests</h2>
+      <p class="section-sub">Report an issue in your room or common areas.</p>
+
+      <div class="glass-card">
+        <h3>Submit a Request</h3>
+        <form id="maintenanceForm">
+          <div class="form-group">
+            <label>Issue Category</label>
+            <select id="issue-category" class="dash-input">
+              <option value="">-- Select category --</option>
+              <option value="plumbing">Plumbing</option>
+              <option value="electrical">Electrical</option>
+              <option value="furniture">Furniture</option>
+              <option value="cleaning">Cleaning</option>
+              <option value="security">Security</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="issue-description" class="dash-input" rows="4" placeholder="Describe the issue in detail..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Priority</label>
+            <select id="issue-priority" class="dash-input">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High — Urgent</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-primary">Submit Request</button>
+          <p id="maintenance-msg" class="form-msg"></p>
+        </form>
+      </div>
+
+      <div class="glass-card">
+        <h3>My Requests</h3>
+        <table class="dash-table" id="maintenance-table">
+          <thead>
+            <tr><th>Category</th><th>Description</th><th>Priority</th><th>Date</th><th>Status</th></tr>
+          </thead>
+          <tbody><tr><td colspan="5" class="empty-row">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── PROFILE ── -->
+    <section id="section-profile" class="dash-section">
+      <h2 class="section-title">My Profile</h2>
+      <p class="section-sub">View and update your personal information.</p>
+
+      <div class="profile-grid">
+        <div class="glass-card profile-card">
+          <div class="profile-avatar" id="profile-avatar">A</div>
+          <div class="profile-name" id="profile-name">—</div>
+          <div class="profile-role">Tenant</div>
+          <div class="profile-email" id="profile-email">—</div>
+        </div>
+
+        <div class="glass-card">
+          <h3>Update Profile</h3>
+          <form id="profileForm">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" id="profile-fullname" class="dash-input" placeholder="Your full name" />
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="text" id="profile-phone" class="dash-input" placeholder="e.g. 0712345678" />
+            </div>
+            <div class="form-group">
+              <label>Course / Programme</label>
+              <input type="text" id="profile-course" class="dash-input" placeholder="e.g. Diploma in IT" />
+            </div>
+            <div class="form-group">
+              <label>Year of Study</label>
+              <select id="profile-year" class="dash-input">
+                <option value="1">Year 1</option>
+                <option value="2">Year 2</option>
+                <option value="3">Year 3</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Emergency Contact Name</label>
+              <input type="text" id="profile-emergency-name" class="dash-input" placeholder="Contact person name" />
+            </div>
+            <div class="form-group">
+              <label>Emergency Contact Phone</label>
+              <input type="text" id="profile-emergency-phone" class="dash-input" placeholder="Contact person phone" />
+            </div>
+            <button type="submit" class="btn-primary">Save Changes</button>
+            <p id="profile-msg" class="form-msg"></p>
+          </form>
+        </div>
+
+        <div class="glass-card">
+          <h3>Change Password</h3>
+          <form id="passwordForm">
+            <div class="form-group">
+              <label>Current Password</label>
+              <input type="password" id="current-password" class="dash-input" placeholder="Current password" />
+            </div>
+            <div class="form-group">
+              <label>New Password</label>
+              <input type="password" id="new-password" class="dash-input" placeholder="New password" />
+            </div>
+            <div class="form-group">
+              <label>Confirm New Password</label>
+              <input type="password" id="confirm-new-password" class="dash-input" placeholder="Confirm new password" />
+            </div>
+            <button type="submit" class="btn-primary">Change Password</button>
+            <p id="password-msg" class="form-msg"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/tenant.js"></script>
+</body>
+</html>
