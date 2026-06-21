@@ -1,0 +1,83 @@
+/* ── INLINE FORM ROW ── */
+.inline-form {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.inline-form .dash-input {
+  flex: 1;
+  min-width: 160px;
+}
+
+/* ── FILTER BAR ── */
+.filter-bar {
+  margin-bottom: 1rem;
+}
+
+/* ── ACTION BUTTONS ── */
+.btn-approve {
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #86efac;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  margin-right: 0.3rem;
+}
+.btn-approve:hover { background: rgba(34, 197, 94, 0.4); color: white; }
+
+.btn-reject {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+.btn-reject:hover { background: rgba(239, 68, 68, 0.4); color: white; }
+
+.btn-update {
+  background: rgba(96, 165, 250, 0.2);
+  border: 1px solid rgba(96, 165, 250, 0.4);
+  color: #93c5fd;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+.btn-update:hover { background: rgba(96, 165, 250, 0.4); color: white; }
+
+.btn-delete {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+.btn-delete:hover { background: rgba(239, 68, 68, 0.35); color: white; }
+
+select.status-select {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: white;
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+select.status-select option {
+  background: #334155;
+  color: white;
+}
+
+/* ── RESPONSIVE: smaller nav text since admin has more tabs ── */
+@media (min-width: 901px) {
+  .navbar-center { gap: 0.1rem; }
+  .nav-btn { padding: 0.4rem 0.7rem; font-size: 0.82rem; }
+}

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard — Makutano HMS</title>
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body class="dashboard-page">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-left">
+      <span class="navbar-logo">Makutano HMS — Admin</span>
+    </div>
+    <div class="navbar-center">
+      <button class="nav-btn active" onclick="showSection('overview', event)">Overview</button>
+      <button class="nav-btn" onclick="showSection('rooms', event)">Rooms</button>
+      <button class="nav-btn" onclick="showSection('bookings', event)">Bookings</button>
+      <button class="nav-btn" onclick="showSection('tenants', event)">Tenants</button>
+      <button class="nav-btn" onclick="showSection('payments', event)">Payments</button>
+      <button class="nav-btn" onclick="showSection('maintenance', event)">Maintenance</button>
+      <button class="nav-btn" onclick="showSection('staff', event)">Staff</button>
+      <button class="nav-btn" onclick="showSection('reports', event)">Reports</button>
+    </div>
+    <div class="navbar-right">
+      <span id="navbar-username" class="navbar-user"></span>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <main class="dashboard-main">
+
+    <!-- ── OVERVIEW ── -->
+    <section id="section-overview" class="dash-section active">
+      <h2 class="section-title">Admin Overview</h2>
+      <p class="section-sub">Hostel-wide summary at a glance.</p>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">🏠</div>
+          <div class="stat-label">Total Rooms</div>
+          <div class="stat-value" id="ov-total-rooms">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-label">Occupied</div>
+          <div class="stat-value" id="ov-occupied-rooms">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📋</div>
+          <div class="stat-label">Pending Bookings</div>
+          <div class="stat-value" id="ov-pending-bookings">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-label">Total Tenants</div>
+          <div class="stat-value" id="ov-total-tenants">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💰</div>
+          <div class="stat-label">Total Collected</div>
+          <div class="stat-value" id="ov-total-collected">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⚠️</div>
+          <div class="stat-label">Total Arrears</div>
+          <div class="stat-value" id="ov-total-arrears">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🔧</div>
+          <div class="stat-label">Open Maintenance</div>
+          <div class="stat-value" id="ov-open-maintenance">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🧑‍💼</div>
+          <div class="stat-label">Staff Members</div>
+          <div class="stat-value" id="ov-total-staff">—</div>
+        </div>
+      </div>
+
+      <div class="overview-grid">
+        <div class="glass-card">
+          <h3>Recent Booking Applications</h3>
+          <table class="dash-table" id="ov-bookings-table">
+            <thead><tr><th>Tenant</th><th>Room Type</th><th>Date</th><th>Status</th></tr></thead>
+            <tbody><tr><td colspan="4" class="empty-row">Loading...</td></tr></tbody>
+          </table>
+        </div>
+        <div class="glass-card">
+          <h3>Recent Maintenance Requests</h3>
+          <table class="dash-table" id="ov-maintenance-table">
+            <thead><tr><th>Tenant</th><th>Category</th><th>Priority</th><th>Status</th></tr></thead>
+            <tbody><tr><td colspan="4" class="empty-row">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ROOMS ── -->
+    <section id="section-rooms" class="dash-section">
+      <h2 class="section-title">Room Management</h2>
+      <p class="section-sub">Add and manage hostel rooms.</p>
+
+      <div class="glass-card">
+        <h3>Add New Room</h3>
+        <form id="addRoomForm" class="inline-form">
+          <input type="text" id="new-room-number" class="dash-input" placeholder="Room Number e.g. A-101" />
+          <select id="new-room-block" class="dash-input">
+            <option value="A">Block A</option>
+            <option value="B">Block B</option>
+            <option value="C">Block C</option>
+          </select>
+          <select id="new-room-type" class="dash-input">
+            <option value="single">Single</option>
+            <option value="double">Double</option>
+            <option value="shared">Shared</option>
+          </select>
+          <input type="number" id="new-room-capacity" class="dash-input" placeholder="Capacity" value="1" min="1" style="max-width:120px;" />
+          <button type="submit" class="btn-primary" style="max-width:160px;">Add Room</button>
+        </form>
+        <p id="room-msg" class="form-msg"></p>
+      </div>
+
+      <div class="glass-card">
+        <h3>All Rooms</h3>
+        <div class="filter-bar">
+          <select id="room-filter-status" class="dash-input" onchange="loadRooms()" style="max-width:200px;">
+            <option value="">All Statuses</option>
+            <option value="available">Available</option>
+            <option value="occupied">Occupied</option>
+            <option value="maintenance">Maintenance</option>
+          </select>
+        </div>
+        <table class="dash-table" id="rooms-table">
+          <thead><tr><th>Room #</th><th>Block</th><th>Type</th><th>Capacity</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody><tr><td colspan="6" class="empty-row">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── BOOKINGS ── -->
+    <section id="section-bookings" class="dash-section">
+      <h2 class="section-title">Booking Applications</h2>
+      <p class="section-sub">Review and process tenant accommodation requests.</p>
+
+      <div class="glass-card">
+        <div class="filter-bar">
+          <select id="booking-filter-status" class="dash-input" onchange="loadBookings()" style="max-width:200px;">
+            <option value="">All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+        <table class="dash-table" id="bookings-table">
+          <thead><tr><th>Tenant</th><th>Room Type</th><th>Block</th><th>Academic Year</th><th>Date Applied</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody><tr><td colspan="7" class="empty-row">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── TENANTS ── -->
+    <section id="section-tenants" class="dash-section">
+      <h2 class="section-title">Tenant Records</h2>
+      <p class="section-sub">Search and view all registered hostel residents.</p>
+
+      <div class="glass-card">
+        <div class="filter-bar">
+          <input type="text" id="tenant-search" class="dash-input" placeholder="Search by name or email..." oninput="loadTenants()" />
+        </div>
+        <table class="dash-table" id="tenants-table">
+          <thead><tr><th>Name</th><th>Email</th><th>Course</th><th>Year</th><th>Room</th><th>Phone</th></tr></thead>
+          <tbody><tr><td colspan="6" class="empty-row">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── PAYMENTS ── -->
+    <section id="section-payments" class="dash-section">
+      <h2 class="section-title">Payments & Billing</h2>
+      <p class="section-sub">Generate invoices and monitor financial collections.</p>
+
+      <div class="glass-card">
+        <h3>Generate Invoice</h3>
+        <form id="generateInvoiceForm" class="inline-form">
+          <select id="invoice-tenant" class="dash-input" style="max-width:260px;">
+            <option value="">-- Select tenant --</option>
+          </select>
+          <input type="text" id="invoice-description" class="dash-input" placeholder="Description" />
+          <input type="number" id="invoice-amount" class="dash-input" placeholder="Amount (KES)" style="max-width:160px;" />
+          <input type="date" id="invoice-due-date" class="dash-input" style="max-width:180px;" />
+          <button type="submit" class="btn-primary" style="max-width:160px;">Generate</button>
+        </form>
+        <p id="invoice-msg" class="form-msg"></p>
+      </div>
+
+      <div class="glass-card">
+        <h3>All Invoices</h3>
+        <table class="dash-table" id="admin-invoices-table">
+          <thead><tr><th>Invoice #</th><th>Tenant</th><th>Description</th><th>Amount</th><th>Due Date</th><th>Status</th></tr></thead>
+          <tbody><tr><td colspan="6" class="empty-row">Loading...</td></tr></tbody>
+        </table>
+      </div>
+
+      <div class="glass-card">
+        <h3>All Payments Received</h3>
+        <table class="dash-table" id="admin-payments-table">
+          <thead><tr><th>Tenant</th><th>Amount</th><th>Method</th><th>Reference</th><th>Date</th></tr></thead>
+          <tbody><tr><td colspan="5" class="empty-row">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── MAINTENANCE ── -->
+    <section id="section-maintenance" class="dash-section">
+      <h2 class="section-title">Maintenance Requests</h2>
+      <p class="section-sub">Track and resolve reported issues.</p>
+
+      <div class="glass-card">
+        <div class="filter-bar">
+          <select id="maintenance-filter-status" class="dash-input" onchange="loadAdminMaintenance()" style="max-width:200px;">
+            <option value="">All Statuses</option>
+            <option value="open">Open</option>
+            <option value="in progress">In Progress</option>
+            <option value="resolved">Resolved</option>
+          </select>
+        </div>
+        <table class="dash-table" id="admin-maintenance-table">
+          <thead><tr><th>Tenant</th><th>Category</th><th>Description</th><th>Priority</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody><tr><td colspan="7" class="empty-row">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── STAFF ── -->
+    <section id="section-staff" class="dash-section">
+      <h2 class="section-title">Staff Management</h2>
+      <p class="section-sub">Create and manage staff accounts.</p>
+
+      <div class="glass-card">
+        <h3>Add Staff Member</h3>
+        <form id="addStaffForm" class="inline-form">
+          <input type="text" id="staff-username" class="dash-input" placeholder="Username" />
+          <input type="email" id="staff-email" class="dash-input" placeholder="Email" />
+          <input type="password" id="staff-password" class="dash-input" placeholder="Temporary Password" />
+          <button type="submit" class="btn-primary" style="max-width:160px;">Add Staff</button>
+        </form>
+        <p id="staff-msg" class="form-msg"></p>
+      </div>
+
+      <div class="glass-card">
+        <h3>All Staff Accounts</h3>
+        <table class="dash-table" id="staff-table">
+          <thead><tr><th>Username</th><th>Email</th><th>Date Joined</th><th>Action</th></tr></thead>
+          <tbody><tr><td colspan="4" class="empty-row">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── REPORTS ── -->
+    <section id="section-reports" class="dash-section">
+      <h2 class="section-title">Reports & Analytics</h2>
+      <p class="section-sub">Operational and financial summaries.</p>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📊</div>
+          <div class="stat-label">Occupancy Rate</div>
+          <div class="stat-value" id="rep-occupancy-rate">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💵</div>
+          <div class="stat-label">Collection Rate</div>
+          <div class="stat-value" id="rep-collection-rate">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏗️</div>
+          <div class="stat-label">Rooms Under Maintenance</div>
+          <div class="stat-value" id="rep-rooms-maintenance">—</div>
+        </div>
+      </div>
+
+      <div class="overview-grid">
+        <div class="glass-card">
+          <h3>Occupancy by Block</h3>
+          <table class="dash-table" id="rep-occupancy-table">
+            <thead><tr><th>Block</th><th>Total Rooms</th><th>Occupied</th><th>Available</th></tr></thead>
+            <tbody><tr><td colspan="4" class="empty-row">Loading...</td></tr></tbody>
+          </table>
+        </div>
+        <div class="glass-card">
+          <h3>Financial Summary</h3>
+          <table class="dash-table" id="rep-financial-table">
+            <thead><tr><th>Metric</th><th>Amount (KES)</th></tr></thead>
+            <tbody><tr><td colspan="2" class="empty-row">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>
